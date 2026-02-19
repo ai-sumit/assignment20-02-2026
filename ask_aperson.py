@@ -27,184 +27,134 @@ def home(request):
     <head>
         <title>Guruji - Wikipedia Cosmic Chat</title>
         <style>
-            @keyframes cosmicSpin {
-                0% { transform: rotate(0deg) scale(1); }
-                50% { transform: rotate(180deg) scale(1.1); }
-                100% { transform: rotate(360deg) scale(1); }
+            @keyframes gradientShift {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
             }
             
-            @keyframes starTwinkle {
-                0% { opacity: 0.3; transform: scale(1); }
-                50% { opacity: 1; transform: scale(1.2); }
-                100% { opacity: 0.3; transform: scale(1); }
+            @keyframes softFloat {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+                100% { transform: translateY(0px); }
             }
             
-            @keyframes floatGlow {
-                0% { transform: translateY(0px); filter: drop-shadow(0 0 5px #00ffff); }
-                50% { transform: translateY(-15px); filter: drop-shadow(0 0 20px #ff00ff); }
-                100% { transform: translateY(0px); filter: drop-shadow(0 0 5px #00ffff); }
+            @keyframes glowPulse {
+                0% { opacity: 0.6; filter: blur(5px); }
+                50% { opacity: 1; filter: blur(8px); }
+                100% { opacity: 0.6; filter: blur(5px); }
             }
             
-            @keyframes pulseGlow {
-                0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.2); }
-                50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.6), 0 0 80px rgba(255, 215, 0, 0.4); }
-                100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.2); }
+            @keyframes borderFlow {
+                0% { border-color: #667eea; }
+                25% { border-color: #764ba2; }
+                50% { border-color: #6b8cff; }
+                75% { border-color: #9f7aea; }
+                100% { border-color: #667eea; }
             }
             
-            @keyframes textGlow {
-                0% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #00ffff, 0 0 40px #00ffff; }
-                50% { text-shadow: 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff; }
-                100% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #00ffff, 0 0 40px #00ffff; }
-            }
-            
-            @keyframes slideInFromGalaxy {
-                0% { transform: translateY(100px) scale(0.5); opacity: 0; filter: blur(10px); }
-                100% { transform: translateY(0) scale(1); opacity: 1; filter: blur(0); }
-            }
-            
-            @keyframes galaxyRotate {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
             }
             
             body {
-                font-family: 'Segoe UI', 'Arial', sans-serif;
-                background: radial-gradient(ellipse at top, #0a0e2a, #030514);
-                color: #fff;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #1a1a2e 50%, #0f3460 75%, #1a1a2e 100%);
+                background-size: 400% 400%;
+                animation: gradientShift 15s ease infinite;
+                color: #e0e0e0;
                 text-align: center;
-                padding: 50px 20px;
+                padding: 40px 20px;
                 margin: 0;
                 min-height: 100vh;
                 position: relative;
-                overflow-x: hidden;
             }
             
-            /* Cosmic Stars Background */
-            body::before {
-                content: '';
+            /* Soft glow orbs */
+            .orb {
                 position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image: 
-                    radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
-                    radial-gradient(2px 2px at 40px 70px, #ffd700, rgba(0,0,0,0)),
-                    radial-gradient(3px 3px at 130px 40px, #00ffff, rgba(0,0,0,0)),
-                    radial-gradient(2px 2px at 160px 120px, #ff69b4, rgba(0,0,0,0)),
-                    radial-gradient(4px 4px at 240px 80px, #fff, rgba(0,0,0,0)),
-                    radial-gradient(3px 3px at 310px 190px, #ffa500, rgba(0,0,0,0)),
-                    radial-gradient(2px 2px at 380px 50px, #ff00ff, rgba(0,0,0,0)),
-                    radial-gradient(3px 3px at 450px 220px, #00ff00, rgba(0,0,0,0)),
-                    radial-gradient(4px 4px at 520px 140px, #fff, rgba(0,0,0,0)),
-                    radial-gradient(2px 2px at 590px 80px, #ffd700, rgba(0,0,0,0)),
-                    radial-gradient(3px 3px at 660px 200px, #00ffff, rgba(0,0,0,0)),
-                    radial-gradient(4px 4px at 730px 120px, #ff69b4, rgba(0,0,0,0));
-                background-repeat: repeat;
-                background-size: 800px 400px;
-                opacity: 0.8;
-                animation: starTwinkle 4s ease-in-out infinite;
+                width: 300px;
+                height: 300px;
+                border-radius: 50%;
+                background: radial-gradient(circle at 30% 30%, rgba(102, 126, 234, 0.15), transparent 70%);
                 pointer-events: none;
                 z-index: 0;
             }
             
-            /* Nebula Effect */
-            body::after {
-                content: '';
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: radial-gradient(circle at 30% 50%, rgba(255, 0, 255, 0.1) 0%, transparent 25%),
-                            radial-gradient(circle at 70% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 30%),
-                            radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 35%),
-                            radial-gradient(circle at 20% 70%, rgba(255, 105, 180, 0.1) 0%, transparent 28%);
-                pointer-events: none;
-                z-index: 0;
+            .orb-1 {
+                top: -100px;
+                left: -100px;
+                background: radial-gradient(circle at 30% 30%, rgba(118, 75, 162, 0.2), transparent 70%);
+                animation: softFloat 8s ease-in-out infinite;
+            }
+            
+            .orb-2 {
+                bottom: -150px;
+                right: -100px;
+                width: 400px;
+                height: 400px;
+                background: radial-gradient(circle at 70% 70%, rgba(107, 140, 255, 0.15), transparent 70%);
+                animation: softFloat 12s ease-in-out infinite reverse;
             }
             
             .container {
-                max-width: 900px;
+                max-width: 1000px;
                 margin: 0 auto;
                 position: relative;
                 z-index: 1;
-                animation: slideInFromGalaxy 1.5s ease-out;
             }
             
-            /* Cosmic Portal Effect */
-            .cosmic-portal {
-                position: relative;
-                margin-bottom: 30px;
-                padding: 20px;
-            }
-            
-            .portal-ring {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 300px;
-                height: 300px;
-                border: 2px solid rgba(255, 215, 0, 0.3);
-                border-radius: 50%;
-                box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
-                animation: cosmicSpin 20s linear infinite;
-                pointer-events: none;
-                z-index: -1;
-            }
-            
-            .portal-ring-inner {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 200px;
-                height: 200px;
-                border: 2px solid rgba(0, 255, 255, 0.3);
-                border-radius: 50%;
-                box-shadow: 0 0 80px rgba(0, 255, 255, 0.5);
-                animation: cosmicSpin 15s linear reverse infinite;
-            }
-            
+            /* Header with gradient text */
             h1 {
-                font-size: 4.5em;
+                font-size: 3.5em;
                 margin: 20px 0 10px;
-                background: linear-gradient(135deg, #ffd700, #ff8c00, #ff69b4, #00ffff);
+                background: linear-gradient(135deg, #667eea, #764ba2, #6b8cff, #9f7aea);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
-                animation: textGlow 3s ease-in-out infinite;
-                position: relative;
-                letter-spacing: 4px;
+                background-size: 300% 300%;
+                animation: gradientShift 8s ease infinite;
                 font-weight: 800;
+                letter-spacing: 2px;
+                text-transform: uppercase;
             }
             
             .guruji-title {
-                font-size: 3em;
-                color: #ffd700;
-                text-transform: uppercase;
-                letter-spacing: 8px;
+                font-size: 2.5em;
                 margin: 10px 0;
-                animation: floatGlow 4s ease-in-out infinite;
+                background: linear-gradient(135deg, #a8b8ff, #b794f4);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 600;
+                letter-spacing: 4px;
+                animation: softFloat 5s ease-in-out infinite;
             }
             
-            .credit-line {
+            /* Credit section with glass morphism */
+            .credit-section {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 20px;
-                margin: 20px 0;
+                gap: 30px;
+                margin: 30px 0;
                 flex-wrap: wrap;
             }
             
-            .cosmic-badge {
-                background: rgba(10, 20, 40, 0.7);
+            .glass-card {
+                background: rgba(255, 255, 255, 0.05);
                 backdrop-filter: blur(10px);
-                padding: 15px 30px;
-                border-radius: 50px;
-                border: 2px solid rgba(255, 215, 0, 0.5);
-                box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-                animation: pulseGlow 3s ease-in-out infinite;
+                border: 1px solid rgba(102, 126, 234, 0.3);
+                border-radius: 20px;
+                padding: 20px 35px;
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+                transition: all 0.3s ease;
+            }
+            
+            .glass-card:hover {
+                border-color: #667eea;
+                box-shadow: 0 8px 32px 0 rgba(102, 126, 234, 0.3);
+                transform: translateY(-5px);
             }
             
             .badge-content {
@@ -214,47 +164,53 @@ def home(request):
             }
             
             .powered-by {
-                color: #00ffff;
+                background: linear-gradient(135deg, #a0b0ff, #c0a0ff);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
                 font-size: 1.2em;
-                text-shadow: 0 0 15px #00ffff;
-            }
-            
-            .wikipedia-icon {
-                font-size: 2em;
-                animation: starTwinkle 2s ease-in-out infinite;
+                font-weight: 600;
             }
             
             .creator-name {
-                background: linear-gradient(135deg, #ff69b4, #ffd700);
+                background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4, #ff9a9e);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
-                font-size: 1.8em;
+                font-size: 1.6em;
                 font-weight: bold;
-                text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+                background-size: 300% 300%;
+                animation: gradientShift 6s ease infinite;
             }
             
-            .search-box {
-                background: rgba(10, 20, 40, 0.6);
-                backdrop-filter: blur(20px);
-                padding: 50px;
-                border-radius: 30px;
+            .wikipedia-icon, .cosmic-emoji {
+                font-size: 2em;
+                filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.5));
+            }
+            
+            /* Search box with elegant design */
+            .search-container {
+                background: rgba(10, 20, 30, 0.6);
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(102, 126, 234, 0.3);
+                border-radius: 50px;
+                padding: 40px;
                 margin: 40px 0;
-                border: 2px solid rgba(255, 215, 0, 0.3);
-                box-shadow: 0 0 100px rgba(0, 255, 255, 0.2);
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
                 position: relative;
                 overflow: hidden;
             }
             
-            .search-box::before {
+            .search-container::before {
                 content: '';
                 position: absolute;
-                top: -50%;
-                left: -50%;
-                width: 200%;
-                height: 200%;
-                background: conic-gradient(from 0deg, transparent, rgba(255, 215, 0, 0.2), transparent, rgba(0, 255, 255, 0.2), transparent);
-                animation: galaxyRotate 10s linear infinite;
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                background: linear-gradient(135deg, #667eea, #764ba2, #6b8cff, #9f7aea);
+                border-radius: 52px;
+                opacity: 0.1;
                 z-index: -1;
+                animation: borderFlow 8s linear infinite;
             }
             
             .input-group {
@@ -265,43 +221,42 @@ def home(request):
             }
             
             input {
-                width: 350px;
-                padding: 18px 25px;
-                border-radius: 50px;
-                border: 2px solid rgba(255, 215, 0, 0.5);
-                background: rgba(255, 255, 255, 0.1);
+                flex: 1;
+                min-width: 300px;
+                padding: 18px 30px;
+                border-radius: 40px;
+                border: 2px solid rgba(102, 126, 234, 0.3);
+                background: rgba(0, 0, 0, 0.3);
                 color: #fff;
                 font-size: 16px;
-                transition: all 0.4s ease;
-                box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+                transition: all 0.3s ease;
+                box-shadow: 0 0 20px rgba(102, 126, 234, 0.1);
             }
             
             input:focus {
                 outline: none;
-                border-color: #00ffff;
-                box-shadow: 0 0 40px #00ffff, 0 0 80px #00ffff;
-                transform: scale(1.02);
-                background: rgba(0, 0, 0, 0.3);
+                border-color: #667eea;
+                box-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+                background: rgba(0, 0, 0, 0.5);
             }
             
             input::placeholder {
-                color: rgba(255, 255, 255, 0.6);
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+                color: rgba(255, 255, 255, 0.5);
+                font-style: italic;
             }
             
             button {
-                padding: 18px 40px;
-                border-radius: 50px;
+                padding: 18px 45px;
+                border-radius: 40px;
                 border: none;
-                background: linear-gradient(135deg, #ffd700, #ff8c00, #ff69b4);
-                color: #0a0e2a;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
                 cursor: pointer;
                 font-size: 18px;
-                font-weight: bold;
-                letter-spacing: 2px;
-                transition: all 0.4s ease;
-                box-shadow: 0 0 30px #ffd700, 0 0 60px #ff69b4;
-                border: 2px solid rgba(255, 255, 255, 0.5);
+                font-weight: 600;
+                letter-spacing: 1px;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
                 position: relative;
                 overflow: hidden;
             }
@@ -309,155 +264,208 @@ def home(request):
             button::before {
                 content: '';
                 position: absolute;
-                top: -50%;
-                left: -50%;
-                width: 200%;
-                height: 200%;
-                background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-                animation: galaxyRotate 4s linear infinite;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.7s ease;
             }
             
             button:hover {
-                transform: scale(1.1);
-                box-shadow: 0 0 50px #ffd700, 0 0 100px #ff69b4, 0 0 150px #00ffff;
+                transform: translateY(-3px);
+                box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
             }
             
-            .result {
+            button:hover::before {
+                left: 100%;
+            }
+            
+            /* Result card with elegant styling */
+            .result-card {
                 margin-top: 40px;
-                background: rgba(10, 20, 40, 0.8);
-                backdrop-filter: blur(20px);
-                padding: 40px;
+                background: rgba(10, 20, 30, 0.7);
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(102, 126, 234, 0.3);
                 border-radius: 30px;
-                box-shadow: 0 0 100px rgba(255, 215, 0, 0.3);
-                border: 2px solid rgba(255, 215, 0, 0.5);
-                animation: slideInFromGalaxy 0.8s ease-out;
+                padding: 40px;
                 text-align: left;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                animation: softFloat 0.6s ease-out;
                 position: relative;
                 overflow: hidden;
             }
             
-            .result::before {
+            .result-card::after {
                 content: '';
                 position: absolute;
                 top: 0;
                 left: 0;
                 right: 0;
-                bottom: 0;
-                background: radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.1), transparent 50%),
-                            radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.1), transparent 50%);
-                pointer-events: none;
+                height: 3px;
+                background: linear-gradient(90deg, #667eea, #764ba2, #6b8cff, #9f7aea);
+                background-size: 300% 300%;
+                animation: gradientShift 6s ease infinite;
             }
             
-            .result h3 {
-                color: #ffd700;
-                margin-top: 0;
+            .result-title {
+                color: #fff;
                 font-size: 2em;
-                border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+                margin-bottom: 20px;
                 padding-bottom: 15px;
-                text-shadow: 0 0 20px #ffd700;
+                border-bottom: 1px solid rgba(102, 126, 234, 0.3);
                 display: flex;
                 align-items: center;
                 gap: 15px;
+                background: linear-gradient(135deg, #fff, #e0e0ff);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
             }
             
-            .result p {
+            .result-content {
+                color: #d0d0ff;
                 line-height: 1.8;
-                font-size: 1.2em;
-                margin-bottom: 0;
-                color: rgba(255, 255, 255, 0.9);
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+                font-size: 1.1em;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             }
             
-            .cosmic-emoji {
-                font-size: 2.5em;
-                filter: drop-shadow(0 0 20px currentColor);
-                animation: starTwinkle 2s ease-in-out infinite;
+            .result-content p {
+                margin-bottom: 15px;
             }
             
-            .shooting-star {
-                position: fixed;
-                top: 20%;
-                right: 10%;
-                width: 150px;
-                height: 2px;
-                background: linear-gradient(90deg, transparent, #fff, #ffd700, #ff69b4, transparent);
-                transform: rotate(45deg);
-                animation: floatGlow 8s ease-in-out infinite;
-                opacity: 0.5;
+            /* Loading animation */
+            .loading {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border: 3px solid rgba(102, 126, 234, 0.3);
+                border-radius: 50%;
+                border-top-color: #667eea;
+                animation: spin 1s ease-in-out infinite;
             }
             
-            .shooting-star2 {
-                top: 70%;
-                left: 15%;
-                width: 200px;
-                transform: rotate(-30deg);
-                animation-delay: 3s;
+            @keyframes spin {
+                to { transform: rotate(360deg); }
             }
             
-            @media (max-width: 600px) {
+            /* Responsive design */
+            @media (max-width: 768px) {
                 h1 {
                     font-size: 2.5em;
                 }
                 
                 .guruji-title {
+                    font-size: 1.8em;
+                }
+                
+                .glass-card {
+                    padding: 15px 25px;
+                }
+                
+                .creator-name {
+                    font-size: 1.3em;
+                }
+                
+                input {
+                    min-width: 250px;
+                }
+                
+                button {
+                    padding: 18px 35px;
+                }
+                
+                .search-container {
+                    padding: 30px 20px;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                h1 {
                     font-size: 2em;
+                }
+                
+                .guruji-title {
+                    font-size: 1.5em;
+                }
+                
+                .credit-section {
+                    gap: 15px;
+                }
+                
+                .glass-card {
+                    width: 100%;
+                }
+                
+                .badge-content {
+                    justify-content: center;
                 }
                 
                 input {
                     width: 100%;
                 }
                 
-                .search-box {
-                    padding: 30px 20px;
+                button {
+                    width: 100%;
                 }
-                
-                .cosmic-badge {
-                    padding: 10px 20px;
-                }
-                
-                .creator-name {
-                    font-size: 1.4em;
-                }
+            }
+            
+            /* Smooth scrollbar */
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+            
+            ::-webkit-scrollbar-track {
+                background: #1a1a2e;
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                border-radius: 5px;
+            }
+            
+            ::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(135deg, #764ba2, #667eea);
+            }
+            
+            /* Text selection */
+            ::selection {
+                background: rgba(102, 126, 234, 0.3);
+                color: #fff;
             }
         </style>
     </head>
     <body>
-        <div class="shooting-star"></div>
-        <div class="shooting-star shooting-star2"></div>
-        
-        <div class="cosmic-portal">
-            <div class="portal-ring"></div>
-            <div class="portal-ring-inner"></div>
-        </div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
         
         <div class="container">
-            <div class="guruji-title">🌟 GURUJI 🌟</div>
-            <h1>⚡ COSMIC WIKIPEDIA ⚡</h1>
+            <div class="guruji-title">✨ GURUJI ✨</div>
+            <h1>⚡ Cosmic Wikipedia ⚡</h1>
             
-            <div class="credit-line">
-                <div class="cosmic-badge">
+            <div class="credit-section">
+                <div class="glass-card">
                     <div class="badge-content">
                         <span class="powered-by">POWERED BY</span>
                         <span class="wikipedia-icon">📚</span>
-                        <span style="color: #fff; font-weight: bold; text-shadow: 0 0 15px #fff;">WIKIPEDIA</span>
+                        <span style="color: #fff; font-weight: 500;">WIKIPEDIA</span>
                     </div>
                 </div>
                 
-                <div class="cosmic-badge">
+                <div class="glass-card">
                     <div class="badge-content">
-                        <span class="cosmic-emoji">👨‍🚀</span>
-                        <span class="creator-name">SUMIT HALDAR</span>
                         <span class="cosmic-emoji">✨</span>
+                        <span class="creator-name">SUMIT HALDAR</span>
+                        <span class="cosmic-emoji">💫</span>
                     </div>
                 </div>
             </div>
             
-            <div class="search-box">
-                <form method="GET">
+            <div class="search-container">
+                <form method="GET" id="searchForm">
                     <div class="input-group">
-                        <input type="text" name="query" placeholder="🔮 Ask the cosmos about someone or something..." required>
+                        <input type="text" name="query" placeholder="🔍 Search the cosmos for knowledge..." required id="searchInput">
                         <button type="submit">
-                            <span style="margin-right: 10px;">🌠</span> SEEK KNOWLEDGE
+                            <span>🚀</span> SEEK WISDOM
                         </button>
                     </div>
                 </form>
@@ -471,50 +479,96 @@ def home(request):
             wikipedia.set_lang("en")
             result = wikipedia.summary(query, sentences=5)
 
-
             html += f"""
-            <div class='result'>
-                <h3>
-                    <span class="cosmic-emoji">📜</span> 
-                    COSMIC REVELATION: {query}
+            <div class='result-card'>
+                <h3 class='result-title'>
+                    <span>📜</span> 
+                    {query}
                 </h3>
-                <p>{result}</p>
+                <div class='result-content'>
+                    <p>{result}</p>
+                </div>
             </div>
             """
         except wikipedia.exceptions.DisambiguationError as e:
             options = ', '.join(e.options[:5])
             html += f"""
-            <div class='result'>
-                <h3>
-                    <span class="cosmic-emoji">🌌</span> 
-                    MULTIPLE PATHS IN THE COSMOS
+            <div class='result-card'>
+                <h3 class='result-title'>
+                    <span>🌌</span> 
+                    Multiple Paths Found
                 </h3>
-                <p>The universe shows multiple paths: {options}</p>
+                <div class='result-content'>
+                    <p>The cosmos reveals multiple possibilities: {options}</p>
+                </div>
             </div>
             """
         except wikipedia.exceptions.PageError:
             html += """
-            <div class='result'>
-                <h3>
-                    <span class="cosmic-emoji">🌑</span> 
-                    VOID DETECTED
+            <div class='result-card'>
+                <h3 class='result-title'>
+                    <span>🌑</span> 
+                    Void Detected
                 </h3>
-                <p>This knowledge exists beyond our cosmic reach. Try another query.</p>
+                <div class='result-content'>
+                    <p>This knowledge lies beyond our cosmic reach. Try another query.</p>
+                </div>
             </div>
             """
         except Exception as e:
             html += f"""
-            <div class='result'>
-                <h3>
-                    <span class="cosmic-emoji">⚠️</span> 
-                    COSMIC DISTURBANCE
+            <div class='result-card'>
+                <h3 class='result-title'>
+                    <span>⚠️</span> 
+                    Cosmic Disturbance
                 </h3>
-                <p>Error: {str(e)}</p>
+                <div class='result-content'>
+                    <p>Error: {str(e)}</p>
+                </div>
             </div>
             """
 
     html += """
         </div>
+        
+        <script>
+            // Add smooth loading effect
+            const searchForm = document.getElementById('searchForm');
+            const searchInput = document.getElementById('searchInput');
+            
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(e) {
+                    if (!searchInput.value.trim()) {
+                        e.preventDefault();
+                        searchInput.style.borderColor = '#ff6b6b';
+                        setTimeout(() => {
+                            searchInput.style.borderColor = 'rgba(102, 126, 234, 0.3)';
+                        }, 1000);
+                    } else {
+                        const button = this.querySelector('button');
+                        button.innerHTML = '<span class="loading"></span> SEEKING...';
+                        button.disabled = true;
+                    }
+                });
+            }
+            
+            // Add dynamic placeholder rotation
+            const placeholders = [
+                '🔍 Search the cosmos for knowledge...',
+                '🌟 Ask about stars, planets, and galaxies...',
+                '📚 Discover ancient wisdom...',
+                '⚡ Explore scientific mysteries...',
+                '🎭 Learn about great minds...'
+            ];
+            
+            let index = 0;
+            if (searchInput) {
+                setInterval(() => {
+                    index = (index + 1) % placeholders.length;
+                    searchInput.placeholder = placeholders[index];
+                }, 3000);
+            }
+        </script>
     </body>
     </html>
     """
