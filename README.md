@@ -13,14 +13,14 @@
 This repository contains three Python-based mini projects:
 
 1. WhatsApp Auto Message Bot  
-2. Blink Photo Capture System  
-3. Cosmic Wikipedia Search App  
+2. Cosmic Wikipedia Search App  
+3. Blink Photo Capture System  
 
 Each project demonstrates automation, computer vision, and API integration using Python.
 
 ---
 
-# 1️⃣ 📲 WhatsApp Auto Message Bot
+# 📲 Project 1 – WhatsApp Auto Message Bot
 
 ## 📖 Description
 This project sends automated WhatsApp messages using Python.  
@@ -32,7 +32,7 @@ It uses the **pywhatkit** library to send scheduled messages through WhatsApp We
 - datetime
 
 ## 🖼 Demo Image
-![WhatsApp Automation](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*4n7XGz2d7R6pujISiFDUFw.png)
+![WhatsApp Automation](https://i.ibb.co/VcjLg926/image.png)
 
 ## 💻 Sample Code
 
@@ -47,4 +47,84 @@ now = datetime.now()
 hour = now.hour
 minute = now.minute + 2
 
-kit.sendwhatmsg(phone_number, message, hour, minute)
+kit.sendwhatmsg(phone_number, message, hour, minute) python
+```
+
+# Project 2 – Cosmic Wikipedia Search App
+
+📖 Description
+
+Cosmic Wikipedia is a Python-based search application that retrieves summarized information about any person, place, or topic using the Wikipedia API.
+
+Key Features:
+
+API integration
+
+User input handling
+
+Text processing
+
+Information retrieval system
+
+🛠 Technologies Used
+
+Python
+
+Wikipedia Library
+
+🖼 Demo Image
+
+💻 Sample Code
+import wikipedia
+
+query = input("Enter topic to search: ")
+
+try:
+    result = wikipedia.summary(query, sentences=5)
+    print("\n🔎 Result:\n")
+    print(result)
+except wikipedia.exceptions.DisambiguationError:
+    print("Multiple results found. Please be more specific.")
+except wikipedia.exceptions.PageError:
+    print("No page found. Try another topic.")
+
+👁 Project 3 – Blink Photo Capture System
+📖 Description
+
+Blink Photo Capture System is a computer vision project that captures a photo automatically when a blink is detected using a webcam.
+
+Key Features:
+
+Real-time camera access
+
+Image capture automation
+
+OpenCV integration
+
+Basic computer vision processing
+
+🛠 Technologies Used
+
+Python
+
+OpenCV
+
+NumPy
+
+🖼 Demo Image
+
+💻 Sample Code
+import cv2
+
+camera = cv2.VideoCapture(0)
+
+while True:
+    ret, frame = camera.read()
+    cv2.imshow("Blink Camera", frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        cv2.imwrite("blink_capture.jpg", frame)
+        break
+
+camera.release()
+cv2.destroyAllWindows()
